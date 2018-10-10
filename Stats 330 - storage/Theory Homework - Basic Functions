@@ -1,0 +1,53 @@
+# Theory Homework: Basis Function Expansion
+# 30 March 2019
+
+Seymour <- read.table(header = TRUE, text = '
+                    Yield Handlines
+                    4     3
+                    1     2
+                    8     5
+                    3     3
+                    3     1
+                    5     4
+                    6     5
+                    3     2
+                    2     1
+                    3     4
+                    ')
+
+plot(Yield~Handlines, data=Seymour)
+
+cor(Seymour$Handlines, Seymour$Yield)
+
+# Yield = f(Handlines) + ,  ∼ N(0, σ2)
+plot(~Handlines+I(Handlines^2) + I(Handlines^3),
+     data=Seymour)
+
+x <- matrix(c(1,   3,   3,   
+            1,   2,   2,
+            1,   5,   5,
+            1,   3,   3,
+            1,   1,   1,
+            1,   4,   4,
+            1,   5,   5,
+            1,   2,   2,
+            1,   1,   1,
+            1,   4,   4
+            ), ncol = 3, byrow = TRUE)
+
+y <- matrix(c(4,
+              1,
+              8,
+              3,
+              3,
+              5,
+              6,
+              3,
+              2,
+              3
+              ), ncol = 1, byrow = TRUE)
+
+# Compute B^ = (X'X)^(-1)X'Y
+#solve(t(x) %*% x) %*% t(x) %*% y
+out.x1y1 <- lm(formula = y1~x1)
+summary(out.x1y1)

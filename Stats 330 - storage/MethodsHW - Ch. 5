@@ -1,0 +1,28 @@
+# Sheather Ch 5 #1
+
+# Bill Collection: Predict LATE from BILL
+
+# Data
+# The first 48 observations in the data set are residential accounts
+# and the second 48 are commercial accounts.
+overdue <- read.table("http;//www.stat.tamu.edu/~sheather/book/docs/datasets/overdue.txt",
+                      header = TRUE)
+# create type
+overdue$type<-c(rep("residential",48),rep("commercial,48"))
+
+#comparisons to residential
+overdue$type <-factor(overdue$type)
+overdue$type<-relevel(overdue$type, "residential")
+
+# EDA
+plot(LATE~BILL, data=overdue, pch=19)
+points(LATE~BILL, data=subset(overdue, type=="commercial"), pch=19, col = "red" )
+
+#MODEL
+#because we see different slopes for residential and commercial, the model
+# will include an interaction
+out.overdue<-lm(LATE ~ BILL + type + type:BILL, data = overdue, x = TRUE)
+
+# Test Ho: no difference between residential and commercial accounts
+reduced.overdue<-lm(LATE~BILL, data = overdue, x = TRUE)
+anova(reduced.overdue, out.overdue)
